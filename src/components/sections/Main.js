@@ -83,7 +83,7 @@ export const Main = () => {
 
                             {selectedEmployee && <div className='main_right_section main_right_section_below'>
                                 <div className='main_right_employee_left'>
-                                    <img src={selectedEmployee.imageurl} className='main_right_employee_image'/>
+                                    <img alt='Headshot' src={selectedEmployee.imageurl} className='main_right_employee_image'/>
                                     <p className='main_right_employee_name'>{selectedEmployee.name}</p>
                                 </div>
                                 <FontAwesomeIcon icon={faEdit} className='main_right_section_icon' onClick={() => (setMainSectionTracker(1))}/>
