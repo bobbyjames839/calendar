@@ -1,0 +1,53 @@
+.pick_employee {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+}
+
+.employee_section {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    padding: 15px 10px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.employee_section_selected {
+    background-color: var(--lightblue);
+    box-shadow: 0 0 10px var(--light);
+}
+
+.employee_section_separator {
+    width: calc(100% - 10px);
+    margin-left: 5px;
+    height: 1px;
+    background-color: var(--light);
+}
+
+.employee_section:hover {
+    box-shadow: 0 0 10px var(--light);
+}
+
+.pick_employee_title {
+    font-size: 18px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+
+.employee_image {
+    height: 70px;
+    width: 70px;
+    border-radius: 100px;
+    object-fit: cover;
+    box-shadow: 0 0 10px var(--dark);
+}
+
+.employee_name {
+    margin-left: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
