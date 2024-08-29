@@ -3,9 +3,9 @@ import '../styles/Finalise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'; 
 
-export const Finalise = () => {
+export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, setAppointmentNote }) => {
     const [label, setLabel] = useState([false, false, false, false]);
-    const [note, setNote] = useState(false)
+    const [note, setNote] = useState(false);
 
     const handleFocus = (index) => {
         const newLabelState = [...label];
@@ -21,6 +21,10 @@ export const Finalise = () => {
         }
     }
 
+    const handleInputChange = (setter) => (event) => {
+        setter(event.target.value);
+    };
+
     return (
         <div className="finalise">
             <h1 className='finalise_title'>Complete Booking</h1>
@@ -32,6 +36,7 @@ export const Finalise = () => {
                         type='text' 
                         onFocus={() => handleFocus(0)} 
                         onBlur={(event) => handleBlur(0, event)} 
+                        onChange={handleInputChange(setFirstName)}
                     />
                     <label className={`form_label ${label[0] ? 'focused_label' : ''}`}>First Name</label>
                 </div>
@@ -41,6 +46,7 @@ export const Finalise = () => {
                         type='text' 
                         onFocus={() => handleFocus(1)} 
                         onBlur={(event) => handleBlur(1, event)} 
+                        onChange={handleInputChange(setLastName)}
                     />
                     <label className={`form_label ${label[1] ? 'focused_label' : ''}`}>Last Name</label>
                 </div>
@@ -52,15 +58,17 @@ export const Finalise = () => {
                     type='email' 
                     onFocus={() => handleFocus(2)} 
                     onBlur={(event) => handleBlur(2, event)} 
+                    onChange={handleInputChange(setEmail)}
                 />
                 <label className={`form_label ${label[2] ? 'focused_label' : ''}`}>Email</label>
             </div>
             <div className='form_input_group'>
                 <input 
                     className='form_input customer_number' 
-                    type='text' 
+                    type='tel' 
                     onFocus={() => handleFocus(3)} 
                     onBlur={(event) => handleBlur(3, event)} 
+                    onChange={handleInputChange(setPhoneNumber)}
                 />
                 <label className={`form_label ${label[3] ? 'focused_label' : ''}`}>Phone Number</label>
             </div>
@@ -71,7 +79,7 @@ export const Finalise = () => {
                     <FontAwesomeIcon icon={note ? faTimes : faPlus} className='add_note' onClick={() => (setNote(!note))}/>
                 </div>
                 <div className={`appointment_note_content ${note ? 'expanded_anc' : ''}`}>
-                    <textarea className='appointment_note_textarea' placeholder='Add note...'></textarea>
+                    <textarea onChange={handleInputChange(setAppointmentNote)} className='appointment_note_textarea' placeholder='Add note...'></textarea>
                 </div>
             </div>
 

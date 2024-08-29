@@ -6,7 +6,10 @@ export const Nav = ({ setSidebar }) => {
     return (
         <div className="nav">
             <span className="nav_logo">Logo</span>
-            <FontAwesomeIcon className='nav_icon' icon={faBars} onClick={() => setSidebar(true)} />
+            <div className="nav_right">
+                <button className='edit_booking'>Ive Booked</button>
+                <FontAwesomeIcon className='nav_icon' icon={faBars} onClick={() => setSidebar(true)} />
+            </div>
         </div>
     );
 };

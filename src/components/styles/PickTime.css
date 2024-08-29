@@ -60,3 +60,24 @@
 .time_slot:hover {
     box-shadow: 0 0 10px var(--light);
 }
+
+/* loading */
+
+.loading_div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.loading_span {
+    height: 30px;
+    margin-bottom: 10px;
+    width: 100%;
+    background-color: var(--lighter);
+    border-radius: 5px;
+}
+
+.loading_span_2, .loading_span_5 {
+    width: 50%;
+    margin-bottom: 0;
+}

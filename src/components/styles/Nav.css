@@ -22,6 +22,29 @@
     letter-spacing: .5px;
 }
 
+.nav_right {
+    display: flex;
+    align-items: center;
+}
+
+.edit_booking {
+    height: 28px;
+    width: 85px;
+    border: none;
+    background-color: var(--blue);
+    color: var(--lightest);
+    font-weight: 500;
+    font-size: 12px;
+    margin-right: 20px;
+    transition: .3s;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.edit_booking:hover {
+    background-color: var(--darkblue);
+}
+
 .nav_icon {
     cursor: pointer;
     font-size: 22px;

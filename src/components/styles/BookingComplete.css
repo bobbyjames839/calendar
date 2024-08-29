@@ -1,0 +1,37 @@
+.booking_complete {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    align-items: center;
+    position: relative;
+    height: calc(100vh - 70px);
+}
+
+.booking_complete_icon {
+    height: 50px;
+    width: 50px;
+    background-color: var(--blue);
+    color: var(--lightest);
+    border-radius: 100px;
+    padding: 30px;
+}
+
+.booking_complete_title {
+    font-weight: 600;
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.booking_complete_desc {
+    font-size: 15px;
+    color: var(--darker);
+}
+
+.make_another_booking {
+    position: absolute;
+    bottom: 20px;
+    font-size: 11px;
+    color: var(--dark);
+    cursor: pointer;
+}

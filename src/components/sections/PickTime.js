@@ -1,21 +1,39 @@
 import '../styles/PickTime.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Calendar } from './Calendar';
+import { db } from '../config/Firebase.js';
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 export const PickTime = ({ selectedService, setSelectedTime }) => {
     const today = new Date();
     const [selectedDay, setSelectedDay] = useState(today);
     const [selectedSlotInfo, setSelectedSlotInfo] = useState({ day: null, slot: null });
+    const [bookedSlots, setBookedSlots] = useState([]);
+    const [loading, setLoading] = useState(false); // New loading state
     const appointmentDuration = parseInt(selectedService.desc.match(/(\d+)\s*minutes/)[1]) || 30;
+
+    useEffect(() => {
+        const fetchBookedSlots = async () => {
+            setLoading(true);
+            const bookingsRef = collection(db, 'bookings');
+            const q = query(bookingsRef, where("date", "==", selectedDay.toDateString()));
+            const querySnapshot = await getDocs(q);
+            const bookedTimes = querySnapshot.docs.map(doc => doc.data().time);
+            setBookedSlots(bookedTimes);            
+            setLoading(false); 
+        };
+
+        fetchBookedSlots();
+    }, [selectedDay]);
 
     const generateTimeSlots = (duration) => {
         const startHour = 9;
         const endHour = 17;
-        const noonHour = 12; 
+        const noonHour = 12;
         const morningSlots = [];
         const afternoonSlots = [];
     
-        let currentTime = new Date(today.getFullYear(), today.getMonth(), today.getDate(), startHour, 0, 0);
+        let currentTime = new Date(selectedDay.getFullYear(), selectedDay.getMonth(), selectedDay.getDate(), startHour, 0, 0, 0);
     
         while (true) {
             const startHours = currentTime.getHours();
@@ -24,6 +42,7 @@ export const PickTime = ({ selectedService, setSelectedTime }) => {
     
             const endTime = new Date(currentTime);
             endTime.setMinutes(currentTime.getMinutes() + duration);
+            endTime.setSeconds(0, 0);
     
             if (endTime.getHours() >= endHour && endTime.getMinutes() > 0) {
                 break;
@@ -31,22 +50,42 @@ export const PickTime = ({ selectedService, setSelectedTime }) => {
     
             const slot = startTimeString;
     
-            if (startHours < noonHour) {
-                morningSlots.push(slot);
-            } else {
-                afternoonSlots.push(slot);
+            const isBooked = bookedSlots.some(bookedTime => {
+                const [bookedStart, bookedEnd] = bookedTime.split(' - ');
+                
+                const bookedStartTime = new Date(selectedDay);
+                const [bookedStartHours, bookedStartMinutes] = bookedStart.split(':').map(Number);
+                bookedStartTime.setHours(bookedStartHours, bookedStartMinutes, 0, 0);
+    
+                const bookedEndTime = new Date(selectedDay);
+                const [bookedEndHours, bookedEndMinutes] = bookedEnd.split(':').map(Number);
+                bookedEndTime.setHours(bookedEndHours, bookedEndMinutes, 0, 0); 
+    
+                return (
+                    (currentTime < bookedEndTime && currentTime >= bookedStartTime) ||
+                    (endTime > bookedStartTime && endTime <= bookedEndTime) ||
+                    (currentTime <= bookedStartTime && endTime >= bookedEndTime)
+                );
+            });
+    
+            if (!isBooked) {
+                if (startHours < noonHour) {
+                    morningSlots.push(slot);
+                } else {
+                    afternoonSlots.push(slot);
+                }
             }
     
             currentTime.setMinutes(currentTime.getMinutes() + duration);
+            currentTime.setSeconds(0, 0); 
         }
     
         return { morningSlots, afternoonSlots };
     };
-
+    
     const { morningSlots, afternoonSlots } = generateTimeSlots(appointmentDuration);
 
     const handleSlotClick = (slot) => {
-        // Set the selected slot info for the current day
         setSelectedSlotInfo({ day: selectedDay.toDateString(), slot });
 
         const appointmentDateTime = new Date(selectedDay);
@@ -70,33 +109,45 @@ export const PickTime = ({ selectedService, setSelectedTime }) => {
             <div className='selected_day_details'>
                 <h1 className='selected_day_title'>{selectedDay.toDateString()}</h1>
 
-                <h2 className='booking_slots_title'>Morning</h2>
-
-                <div className='booking_slots'>
-                    {morningSlots.map((slot, index) => (
-                        <div
-                            key={index}
-                            className={`time_slot ${selectedSlotInfo.day === selectedDay.toDateString() && selectedSlotInfo.slot === slot ? 'selected_time_slot' : ''}`}
-                            onClick={() => handleSlotClick(slot)}
-                        >
-                            {slot}
+                {loading ? (
+                    <div className="loading_div">
+                        <h2 className='booking_slots_title'>Morning</h2>
+                        <span className='loading_span loading_span_1'></span>
+                        <span className='loading_span loading_span_2'></span>
+                        <h2 className='booking_slots_title'>Afternoon</h2>
+                        <span className='loading_span loading_span_3'></span>
+                        <span className='loading_span loading_span_4'></span>
+                        <span className='loading_span loading_span_5'></span>
+                    </div>
+                ) : (
+                    <>
+                        <h2 className='booking_slots_title'>Morning</h2>
+                        <div className='booking_slots'>
+                            {morningSlots.map((slot, index) => (
+                                <div
+                                    key={index}
+                                    className={`time_slot ${selectedSlotInfo.day === selectedDay.toDateString() && selectedSlotInfo.slot === slot ? 'selected_time_slot' : ''}`}
+                                    onClick={() => handleSlotClick(slot)}
+                                >
+                                    {slot}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
 
-                <h2 className='booking_slots_title'>Afternoon</h2>
-
-                <div className='booking_slots'>
-                    {afternoonSlots.map((slot, index) => (
-                        <div
-                            key={index}
-                            className={`time_slot ${selectedSlotInfo.day === selectedDay.toDateString() && selectedSlotInfo.slot === slot ? 'selected_time_slot' : ''}`}
-                            onClick={() => handleSlotClick(slot)}
-                        >
-                            {slot}
+                        <h2 className='booking_slots_title'>Afternoon</h2>
+                        <div className='booking_slots'>
+                            {afternoonSlots.map((slot, index) => (
+                                <div
+                                    key={index}
+                                    className={`time_slot ${selectedSlotInfo.day === selectedDay.toDateString() && selectedSlotInfo.slot === slot ? 'selected_time_slot' : ''}`}
+                                    onClick={() => handleSlotClick(slot)}
+                                >
+                                    {slot}
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
+                    </>
+                )}
             </div>
         </div>
     );
