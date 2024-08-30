@@ -103,11 +103,15 @@ export const Main = ({ setMain, setBookingComplete }) => {
 
         try {
 
-            const isAvailable = await finalCheck(selectedTime.date, selectedEmployee, selectedTime.startTime, appointmentDuration);
+            const isAvailable = await finalCheck(selectedTime.date, selectedEmployee, selectedTime.startTime, appointmentDuration, randomName);
             
-            if (!isAvailable) {
+            if (isAvailable === true) {
                 setPendingBooking(false);
-                console.log("This time slot is already booked. Please choose another time.");
+                setUnfilledFormText('This spot has just been taken, please restart the page and try again.')
+                setContinueError(true);
+                setTimeout(() => {
+                    setContinueError(false);
+                }, 3000);
                 return;
             } else {
                 console.log('we are continuing')
