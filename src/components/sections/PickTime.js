@@ -3,17 +3,18 @@ import { useState, useEffect } from 'react';
 import { Calendar } from './Calendar';
 import { fetchAndProcessBookedSlots } from '../other/fetchAndProcessBookingSlots.js'
 
-export const PickTime = ({ selectedService, setSelectedTime, selectedEmployee, selectedDay, setSelectedDay }) => {
+export const PickTime = ({ setSelectedTime, selectedEmployee, appointmentDuration }) => {
     const [selectedSlotInfo, setSelectedSlotInfo] = useState({ day: null, slot: null });
     const [morningSlots, setMorningSlots] = useState([]);
     const [afternoonSlots, setAfternoonSlots] = useState([]);
     const [loading, setLoading] = useState(false); 
-    const appointmentDuration = parseInt(selectedService.desc.match(/(\d+)\s*minutes/)[1]) || 30;
+    const today = new Date()
+    const [selectedDay, setSelectedDay] = useState(today)
 
     useEffect(() => {
         const fetchAndGenerateTimeSlots = async () => {
             setLoading(true);
-    
+
             const { morningSlotsTemp, afternoonSlotsTemp } = await fetchAndProcessBookedSlots(selectedDay, selectedEmployee, appointmentDuration);
     
             setMorningSlots(morningSlotsTemp);

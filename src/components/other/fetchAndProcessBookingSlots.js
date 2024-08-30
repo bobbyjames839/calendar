@@ -3,19 +3,22 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.js'
 
 export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, appointmentDuration) => {
+    
     const startHour = 9;
     const endHour = 17;
     const noonHour = 12;
     const morningSlotsTemp = [];
     const afternoonSlotsTemp = [];
-
     const bookingsRef = collection(db, 'bookings');
+
     let q;
+
     if (selectedEmployee.name === "Any Staff") {
         q = query(bookingsRef, where("date", "==", selectedDay.toDateString()));
     } else {
         q = query(bookingsRef, where("date", "==", selectedDay.toDateString()), where("employee", "==", selectedEmployee.name));
     }
+
     const querySnapshot = await getDocs(q);
 
     let bookedSlots = querySnapshot.docs.map(doc => {
@@ -57,28 +60,29 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
             bookedSlots = mergedSlots;
         }
     }
+    console.log(bookedSlots)
 
     let currentTime = new Date(selectedDay.getFullYear(), selectedDay.getMonth(), selectedDay.getDate(), startHour, 0, 0, 0);
 
     while (true) {
         const endTime = new Date(currentTime);
         endTime.setMinutes(currentTime.getMinutes() + appointmentDuration);
-
+    
         if (endTime.getHours() > endHour || (endTime.getHours() === endHour && endTime.getMinutes() > 0)) {
             break;
         }
-
+    
         const hours = currentTime.getHours().toString().padStart(2, '0');
         const minutes = currentTime.getMinutes().toString().padStart(2, '0');
         const timeSlot = `${hours}:${minutes}`;
-
+    
         const currentTimeDecimal = timeMapping[timeSlot];
         const endTimeDecimal = currentTimeDecimal + appointmentDuration / 60;
-
+    
         const isBooked = bookedSlots.some(slot => 
             (currentTimeDecimal < slot.endTime && endTimeDecimal > slot.startTime)
         );
-
+    
         if (!isBooked) {
             if (currentTime.getHours() < noonHour) {
                 morningSlotsTemp.push(timeSlot);
@@ -86,10 +90,9 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
                 afternoonSlotsTemp.push(timeSlot);
             }
         }
-
+    
         currentTime.setMinutes(currentTime.getMinutes() + appointmentDuration);
     }
-
+        
     return { morningSlotsTemp, afternoonSlotsTemp };
 };
-

@@ -178,3 +178,15 @@
     
         fetchAndGenerateTimeSlots();
     }, [selectedDay, appointmentDuration, selectedEmployee]);
+
+
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBVo892hQ7CQSZR0MGsozc5mH7ZTt8xFUk",
+  authDomain: "calendarv2-e6d72.firebaseapp.com",
+  projectId: "calendarv2-e6d72",
+  storageBucket: "calendarv2-e6d72.appspot.com",
+  messagingSenderId: "172451789407",
+  appId: "1:172451789407:web:8663f3beef8802a82739ea"
+};

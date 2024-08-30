@@ -9,7 +9,8 @@ import { Finalise } from './Finalise';
 import { db } from '../config/Firebase.js'; 
 import { collection, addDoc } from "firebase/firestore"; 
 import timeMapping from '../other/timeMapping.js';
-import { fetchAndProcessBookedSlots } from '../other/fetchAndProcessBookingSlots.js';
+import { assignEmployee } from '../other/assignEmployee.js';
+import { finalCheck } from '../other/finalCheck.js';
 
 
 export const Main = ({ setMain, setBookingComplete }) => {
@@ -25,15 +26,15 @@ export const Main = ({ setMain, setBookingComplete }) => {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [appointmentNote, setAppointmentNote] = useState('')
     const [pendingBooking, setPendingBooking] = useState(false)
-    const today = new Date();
-    const [selectedDay, setSelectedDay] = useState(today);
+    const [randomName, setRandomName] = useState('')
+    const [appointmentDuration, setAppointmentDuration] = useState(30)
 
     const handleSelectService = (service) => {
         setSelectedService(service);
     };
 
     const handleSelectEmployee = (employee) => {
-        setSelectedEmployee(employee)   
+        setSelectedEmployee(employee)
     }
 
     const handleContinueBooking = () => {
@@ -62,6 +63,9 @@ export const Main = ({ setMain, setBookingComplete }) => {
         } else if (mainSectionTracker === 1) {
             checkAndProceed(selectedEmployee);
         } else if (mainSectionTracker === 2) {
+            if (selectedEmployee.name == 'Any Staff') {
+                assignEmployee(selectedTime.date, selectedTime.startTime, appointmentDuration, setRandomName)
+            }
             checkAndProceed(selectedTime);
         } 
     };
@@ -72,11 +76,10 @@ export const Main = ({ setMain, setBookingComplete }) => {
         return isValid;
     }
 
-
     const handleMakeBooking = async () => {
         const emailIsValid = validateEmail(email);
         let errorMessage = '';
-    
+        
         if (!firstName) {
             errorMessage = 'Please enter your first name.';
         } else if (!lastName) {
@@ -86,7 +89,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
         } else if (!phoneNumber) {
             errorMessage = 'Please enter your phone number.';
         } 
-    
+
         if (errorMessage) {
             setUnfilledFormText(errorMessage);
             setContinueError(true);
@@ -95,39 +98,36 @@ export const Main = ({ setMain, setBookingComplete }) => {
             }, 3000);
             return;
         }
-    
-        setPendingBooking(true);
-    
+        setPendingBooking(true)
+
+
         try {
-            const appointmentDuration = parseInt(selectedService.desc.match(/(\d+)\s*minutes/)[1]) || 30;
-    
-            const { morningSlotsTemp, afternoonSlotsTemp } = await fetchAndProcessBookedSlots(db, selectedDay, selectedEmployee, appointmentDuration);
-            const availableSlots = [...morningSlotsTemp, ...afternoonSlotsTemp];
-            const selectedSlotString = `${Math.floor(selectedTime.startTime)}:${(selectedTime.startTime % 1) * 60}`.padStart(5, '0');
-    
-            if (!availableSlots.includes(selectedSlotString)) {
+
+            const isAvailable = await finalCheck(selectedTime.date, selectedEmployee, selectedTime.startTime, appointmentDuration);
+            
+            if (!isAvailable) {
                 setPendingBooking(false);
-                setUnfilledFormText("The selected time slot is no longer available. Please refresh and choose a different time.");
-                setContinueError(true);
-                setTimeout(() => {
-                    setContinueError(false);
-                }, 3000);
+                console.log("This time slot is already booked. Please choose another time.");
                 return;
+            } else {
+                console.log('we are continuing')
             }
-    
+
+            const employeeName = selectedEmployee.name === 'Any Staff' ? randomName : selectedEmployee.name;
+            
             const bookingData = {
                 service: selectedService.title,
-                employee: selectedEmployee.name,
-                date: selectedTime.date,
-                startTime: selectedTime.startTime,
-                endTime: selectedTime.endTime,
+                employee: employeeName,
+                date: selectedTime.date,   
+                startTime: selectedTime.startTime,  
+                endTime: selectedTime.endTime,  
                 duration: appointmentDuration,
                 firstName: firstName,
                 lastName: lastName,
                 email: email,
                 phoneNumber: phoneNumber,
                 appointmentNote: appointmentNote,
-                createdAt: new Date().toISOString(),
+                createdAt: new Date().toISOString(),  
             };
     
             await addDoc(collection(db, "bookings"), bookingData);
@@ -138,29 +138,23 @@ export const Main = ({ setMain, setBookingComplete }) => {
             console.log("Booking added to Firestore: ", bookingData);
         } catch (error) {
             console.error("Error adding booking: ", error);
-            setUnfilledFormText("An error occurred while processing your booking. Please try again.");
-            setContinueError(true);
-            setTimeout(() => {
-                setContinueError(false);
-            }, 3000);
-        } finally {
-            setPendingBooking(false);
         }
     };
 
     return (
         <div className="main">
             {mainSectionTracker === 0 && <Services 
+                setAppointmentDuration={setAppointmentDuration}
                 handleSelectService={handleSelectService} 
                 selectedService={selectedService} />}
 
             {mainSectionTracker === 1 && <PickEmployee
-               handleSelectEmployee={handleSelectEmployee} 
-               selectedEmployee={selectedEmployee} />}
+                handleSelectEmployee={handleSelectEmployee} 
+                selectedEmployee={selectedEmployee} />}
             
             {mainSectionTracker === 2 && <PickTime 
-            setSelectedDay={setSelectedDay}
-            selectedDay={selectedDay}
+            appointmentDuration={appointmentDuration}
+            setRandomName={setRandomName}
             selectedService={selectedService} 
             setSelectedTime={setSelectedTime} 
             selectedEmployee={selectedEmployee}/>}
