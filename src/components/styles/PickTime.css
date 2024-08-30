@@ -81,3 +81,9 @@
     width: 50%;
     margin-bottom: 0;
 }
+
+.choose_other_barbers {
+    font-size: 12px;
+    margin-top: 20px;
+    color: var(--dark);
+}

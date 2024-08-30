@@ -1,7 +1,7 @@
 .main {
     display: flex;
     justify-content: space-between;
-    width: 70%;
+    width: 75%;
 }
 
 .main_right {
@@ -70,7 +70,7 @@
 }
 
 .main_right_section_icon {
-    background-color: var(--lightblue);
+    background-color: var(--lighter);
     cursor: pointer;
     height: 14px;
     width: 14px;
@@ -95,6 +95,17 @@
     border-radius: 100px;
     object-fit: cover;
     box-shadow: 0 0 10px var(--dark);
+}
+
+.employee_image_random_main {
+    height: 45px;
+    width: 45px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;   
+    border-radius: 100px;
+    box-shadow: 0 0 10px var(--dark);
+    background-color: var(--lightest);
 }
 
 .main_right_employee_name {
