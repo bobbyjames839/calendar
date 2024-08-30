@@ -63,7 +63,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
         } else if (mainSectionTracker === 1) {
             checkAndProceed(selectedEmployee);
         } else if (mainSectionTracker === 2) {
-            if (selectedEmployee.name == 'Any Staff') {
+            if (selectedEmployee.name === 'Any Staff') {
                 assignEmployee(selectedTime.date, selectedTime.startTime, appointmentDuration, setRandomName)
             }
             checkAndProceed(selectedTime);

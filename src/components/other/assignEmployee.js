@@ -1,6 +1,5 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.js';
-import timeMapping from '../other/timeMapping.js';
 
 export const assignEmployee = async (selectedTime, startTime, appointmentDuration, setRandomName) => {
     const bookingsRef = collection(db, 'bookings');
