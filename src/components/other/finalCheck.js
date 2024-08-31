@@ -1,6 +1,5 @@
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.js'
-import timeMapping from '../other/timeMapping.js';
 
 export const finalCheck = async (selectedTime, selectedEmployee, startTime, appointmentDuration, randomName) => {
     console.log(startTime, selectedEmployee, selectedTime, appointmentDuration)

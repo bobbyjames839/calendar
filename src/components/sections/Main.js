@@ -12,7 +12,6 @@ import timeMapping from '../other/timeMapping.js';
 import { assignEmployee } from '../other/assignEmployee.js';
 import { finalCheck } from '../other/finalCheck.js';
 
-
 export const Main = ({ setMain, setBookingComplete }) => {
     const [selectedService, setSelectedService] = useState('');
     const [selectedEmployee, setSelectedEmployee] = useState('');
@@ -28,6 +27,11 @@ export const Main = ({ setMain, setBookingComplete }) => {
     const [pendingBooking, setPendingBooking] = useState(false)
     const [randomName, setRandomName] = useState('')
     const [appointmentDuration, setAppointmentDuration] = useState(30)
+    const [price, setPrice] = useState('')
+
+    const generateBookingId = () => {
+        return Math.floor(1000000000000000 + Math.random() * 9000000000000000);
+    };
 
     const handleSelectService = (service) => {
         setSelectedService(service);
@@ -100,9 +104,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
         }
         setPendingBooking(true)
 
-
         try {
-
             const isAvailable = await finalCheck(selectedTime.date, selectedEmployee, selectedTime.startTime, appointmentDuration, randomName);
             
             if (isAvailable === true) {
@@ -118,8 +120,12 @@ export const Main = ({ setMain, setBookingComplete }) => {
             }
 
             const employeeName = selectedEmployee.name === 'Any Staff' ? randomName : selectedEmployee.name;
+
+            const bookingId = generateBookingId(); // Generate a 16-digit booking ID
             
             const bookingData = {
+                id: bookingId, 
+                price: price,
                 service: selectedService.title,
                 employee: employeeName,
                 date: selectedTime.date,   
@@ -148,6 +154,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
     return (
         <div className="main">
             {mainSectionTracker === 0 && <Services 
+                setPrice={setPrice}
                 setAppointmentDuration={setAppointmentDuration}
                 handleSelectService={handleSelectService} 
                 selectedService={selectedService} />}

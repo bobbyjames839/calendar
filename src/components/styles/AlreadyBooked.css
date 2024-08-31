@@ -1,0 +1,5 @@
+.already_booked {
+    display: flex;
+    justify-content: space-between;
+    width: 75%;
+}

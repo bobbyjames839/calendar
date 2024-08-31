@@ -1,0 +1,130 @@
+.booking_dashboard {
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+}
+
+.booking_dashboard_title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-bottom: 20px;
+}
+
+.booking_dashboard_right, .booking_dashboard_left {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+}
+
+.booking_dashboard_section {
+    margin-bottom: 30px;
+    width: 100%;
+    padding: 5px 15px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--light);
+    box-shadow: 0 0 10px var(--light);
+}
+
+.booking_dashboard_section_right {
+    margin-top: 46px;
+}
+
+.booking_info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.booking_info_type {
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.booking_info_info {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.cancel_appointment {
+    height: 40px;
+    background-color: var(--blue);
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--lightest);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s;
+    margin-bottom: 20px;
+}
+
+.cancel_appointment:hover {
+    background-color: var(--darkblue);
+}
+
+.reschedule {
+    font-size: 11px;
+    color: var(--dark);
+    text-align: center;
+}
+
+.cancelling_text {
+    font-size: 12px;
+    text-align: center;
+}
+
+.cancelling_buttons {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.cancelling_confirm {
+    margin: 0 5px;
+    height: 40px;
+    background-color: var(--blue);
+    border: none;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--lightest);
+    width: 38%;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .3s;
+    margin-bottom: 20px;
+}
+
+.cancelling_confirm:hover {
+    background-color: var(--darkblue);
+}
+
+/* loading */
+
+.pending_booking_dashboard {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .loading_icon_dashboard {
+    height: 120px;
+    margin-top: 50px;
+    width: 120px; 
+    border: 8px solid var(--lighter); 
+    border-top: 8px solid var(--blue);
+    border-radius: 50%;
+    animation: spin 1s linear infinite; 
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+

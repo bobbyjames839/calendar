@@ -140,9 +140,9 @@
     width: calc(40% - 50px);
     display: flex;
     justify-content: center;
-}
-
-.loading_icon {
+  }
+  
+  .loading_icon {
     height: 70px;
     margin-top: 50px;
     width: 70px; 
@@ -150,9 +150,9 @@
     border-top: 8px solid var(--blue);
     border-radius: 50%;
     animation: spin 1s linear infinite; 
-}
-
-@keyframes spin {
+  }
+  
+  @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
+  }

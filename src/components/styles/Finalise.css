@@ -33,7 +33,7 @@
 }
 
 .form_input:focus {
-    box-shadow: 0 0 10px var(--light);
+    box-shadow: 0 0 5px var(--light);
 }
 
 .form_input_group {
