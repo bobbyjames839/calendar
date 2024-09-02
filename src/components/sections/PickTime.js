@@ -25,7 +25,7 @@ export const PickTime = ({ setSelectedTime, selectedEmployee, appointmentDuratio
 
         const initialSelectedDay = adjustForWeekend(new Date(today));
         setSelectedDay(initialSelectedDay);
-    }, []);
+    }, [today]);
     
     useEffect(() => {
         const fetchAndGenerateTimeSlots = async () => {
