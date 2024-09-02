@@ -1,12 +1,13 @@
 import '../styles/Services.css'
 
-export const Services = ({handleSelectService, selectedService, setAppointmentDuration, setPrice}) => {
+export const Services = ({handleSelectService, selectedService, setAppointmentDuration, setPrice, setSelectedTime}) => {
 
     const ServiceSection = ({ title, desc, top = false, duration = 30, price = '' }) => {
         return (
             <div className={`service_section ${selectedService.title === title && 'service_section_selected'} ${top && 'service_section_top'}`} onClick={() => {handleSelectService({ title, desc })
             setAppointmentDuration(duration)
-            setPrice(price)}}>
+            setPrice(price)
+            setSelectedTime({ date: '', startTime: '', endTime: '' })}}>
                 <h3 className='service_section_title'>{title}</h3>
                 <p className='service_section_desc'>{desc}</p>
             </div>

@@ -154,12 +154,14 @@ export const Main = ({ setMain, setBookingComplete }) => {
     return (
         <div className="main">
             {mainSectionTracker === 0 && <Services 
+                setSelectedTime={setSelectedTime}
                 setPrice={setPrice}
                 setAppointmentDuration={setAppointmentDuration}
                 handleSelectService={handleSelectService} 
                 selectedService={selectedService} />}
 
             {mainSectionTracker === 1 && <PickEmployee
+                setSelectedTime={setSelectedTime}
                 handleSelectEmployee={handleSelectEmployee} 
                 selectedEmployee={selectedEmployee} />}
             

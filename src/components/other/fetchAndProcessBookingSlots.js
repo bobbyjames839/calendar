@@ -14,8 +14,10 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
     let q;
 
     if (selectedEmployee.name === "Any Staff") {
+        //get all bookings in that day 
         q = query(bookingsRef, where("date", "==", selectedDay.toDateString()));
     } else {
+        //get all the bookings for the employee in that day
         q = query(bookingsRef, where("date", "==", selectedDay.toDateString()), where("employee", "==", selectedEmployee.name));
     }
 
@@ -25,11 +27,16 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
         const data = doc.data();
         return { startTime: data.startTime, endTime: data.endTime };
     });
+    // [{startTime: 9.5, endTime: 10}]
 
     if (selectedEmployee.name === "Any Staff") {
+
         const aggregatedSlots = {};
+
+        //map through every 0.25 hours of every booked slot and add 1 to every 0.25 that it exists in 
         bookedSlots.forEach(slot => {
             for (let time = slot.startTime; time < slot.endTime; time += 0.25) {
+                
                 if (!aggregatedSlots[time]) {
                     aggregatedSlots[time] = 0;
                 }
@@ -39,7 +46,7 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
 
         bookedSlots = [];
         Object.keys(aggregatedSlots).forEach(time => {
-            if (aggregatedSlots[time] >= 4) { // Assuming 4 employees in total
+            if (aggregatedSlots[time] >= 4) { 
                 bookedSlots.push({ startTime: parseFloat(time), endTime: parseFloat(time) + 0.25 });
             }
         });
@@ -60,7 +67,6 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
             bookedSlots = mergedSlots;
         }
     }
-    console.log(bookedSlots)
 
     let currentTime = new Date(selectedDay.getFullYear(), selectedDay.getMonth(), selectedDay.getDate(), startHour, 0, 0, 0);
 

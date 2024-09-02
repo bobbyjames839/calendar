@@ -7,11 +7,11 @@ export const Calendar = ({ selectedDay, setSelectedDay }) => {
     const [month1, setMonth1] = useState(true); 
 
     const daysOfWeek = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-    const daysInMonth1 = ['', '', '', '1', '2', '3', '4',  '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
-    const daysInMonth2 = ['', '', '', '', '', '', '1', '2', '3', '4',  '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
+    const daysInMonth2 = ['', '1', '2', '3', '4',  '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'];
+    const daysInMonth1 = ['', '', '', '', '', '', '1', '2', '3', '4',  '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'];
 
-    const closedDaysMonth1 = ['3', '4', '10', '11', '17', '18', '24', '25', '31'];
-    const closedDaysMonth2 = ['1', '7', '8', '14', '15', '21', '22', '28', '29'];
+    const closedDaysMonth2 = ['5', '6', '12', '13', '19', '20', '26', '27'];
+    const closedDaysMonth1 = ['1', '7', '8', '14', '15', '21', '22', '28', '29'];
 
     const today = new Date();
     const currentDay = today.getDate();
@@ -19,7 +19,7 @@ export const Calendar = ({ selectedDay, setSelectedDay }) => {
     
     const handleDayClick = (day) => {
         if (day && !isDayDisabled(day)) {
-            const selectedMonth = month1 ? 7 : 8; 
+            const selectedMonth = month1 ? 8 : 9; 
             const selectedDate = new Date(today.getFullYear(), selectedMonth, day);
             setSelectedDay(selectedDate);
         }
@@ -40,8 +40,8 @@ export const Calendar = ({ selectedDay, setSelectedDay }) => {
         const isSelected = 
             day && 
             parseInt(day) === selectedDay.getDate() && 
-            ((month1 && selectedDay.getMonth() === 7) || 
-            (!month1 && selectedDay.getMonth() === 8));
+            ((month1 && selectedDay.getMonth() === 8) || 
+            (!month1 && selectedDay.getMonth() === 9));
 
         return (
             <div className='calendar_section'>
@@ -59,7 +59,7 @@ export const Calendar = ({ selectedDay, setSelectedDay }) => {
     return (
         <div className='calendar'>
             <div className='calendar_top'>
-                <h1 className='calendar_month'>{month1 ? 'Aug 2024' : 'Sep 2024'}</h1>
+                <h1 className='calendar_month'>{month1 ? 'Sep 2024' : 'Oct 2024'}</h1>
                 <div className='calendar_toggle_month_buttons'>
                     <FontAwesomeIcon 
                         icon={faArrowLeft} 
