@@ -3,6 +3,7 @@
     justify-content: space-between;
     width: 75%;
     padding-bottom: 100px;
+    margin-top: 20px;
 }
 
 .main_right {
@@ -157,3 +158,35 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+
+  @keyframes flash {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+  
+  .flash {
+    animation: flash 0.5s ease;
+  }
+
+  @media (max-width: 800px) {
+    .main_right {
+        width: calc(60% - 50px);
+    }
+  }
+  
+
+  @media (max-width: 600px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .main_right {
+        margin-top: 30px;
+        width: 100%;
+    }
+
+    .main_right_inner {
+        margin-top: 10px;
+    }
+  }
+  

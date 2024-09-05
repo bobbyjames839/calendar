@@ -158,4 +158,16 @@
     color: var(--light);
 }
 
+@media (max-width: 800px) {
+    .finalise {
+        width: 45%;
+    }
+}
+
+@media (max-width: 600px) {
+    .finalise {
+        width: 100%;
+    }
+}
+
 

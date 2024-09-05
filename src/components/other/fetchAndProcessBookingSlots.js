@@ -51,6 +51,7 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
             }
         });
 
+        //merge any booked slots that are next to each other 
         if (bookedSlots.length > 0) {
             const mergedSlots = [];
             let currentSlot = bookedSlots[0];
@@ -67,6 +68,7 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
             bookedSlots = mergedSlots;
         }
     }
+
 
     let currentTime = new Date(selectedDay.getFullYear(), selectedDay.getMonth(), selectedDay.getDate(), startHour, 0, 0, 0);
 
@@ -85,6 +87,7 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
         const currentTimeDecimal = timeMapping[timeSlot];
         const endTimeDecimal = currentTimeDecimal + appointmentDuration / 60;
     
+        //check if the slot is booked
         const isBooked = bookedSlots.some(slot => 
             (currentTimeDecimal < slot.endTime && endTimeDecimal > slot.startTime)
         );
@@ -99,6 +102,6 @@ export const fetchAndProcessBookedSlots = async (selectedDay, selectedEmployee, 
     
         currentTime.setMinutes(currentTime.getMinutes() + appointmentDuration);
     }
-        
+    //return the appointments
     return { morningSlotsTemp, afternoonSlotsTemp };
 };

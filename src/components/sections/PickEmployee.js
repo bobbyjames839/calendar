@@ -5,13 +5,19 @@ import employee3 from '../images/employee3.jpeg'
 import employee4 from '../images/employee4.jpeg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUsers } from '@fortawesome/free-solid-svg-icons'; 
-export const PickEmployee = ({handleSelectEmployee, selectedEmployee, setSelectedTime }) => {
+import { useEffect } from 'react'
+
+export const PickEmployee = ({setSelectedEmployee, selectedEmployee, setSelectedTime }) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []); 
 
     const EmployeeSection = ({ name, imageurl = null, desc, random = false }) => {
         return (
             <div 
                 className={`employee_section ${selectedEmployee.name === name ? 'employee_section_selected' : ''} ${random ? 'employee_section_top' : ''}`} 
-                onClick={() => {(handleSelectEmployee({ name, imageurl, random }))
+                onClick={() => {(setSelectedEmployee({ name, imageurl, random }))
                 setSelectedTime({ date: '', startTime: '', endTime: '' })}}>
                 {random ? <span className='employee_image_random'><FontAwesomeIcon icon={faUsers} size='2x'/></span>
                 :

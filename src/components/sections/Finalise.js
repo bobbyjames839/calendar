@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/Finalise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'; 
@@ -6,6 +6,10 @@ import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
 export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, setAppointmentNote }) => {
     const [label, setLabel] = useState([false, false, false, false]);
     const [note, setNote] = useState(false);
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []); 
 
     const handleFocus = (index) => {
         const newLabelState = [...label];

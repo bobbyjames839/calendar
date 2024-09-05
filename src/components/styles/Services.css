@@ -44,3 +44,16 @@
     margin-bottom: 10px;
     font-weight: 500;
 }
+
+@media (max-width: 800px) {
+    .services {
+        width: 45%;
+    }
+}
+
+@media (max-width: 600px) {
+    .services {
+        width: 100%;
+    }
+}
+

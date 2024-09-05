@@ -87,3 +87,15 @@
     margin-top: 20px;
     color: var(--dark);
 }
+
+@media (max-width: 800px) {
+    .pick_time {
+        width: 45%;
+    }
+}
+
+@media (max-width: 600px) {
+    .pick_time {
+        width: 100%;
+    }
+}

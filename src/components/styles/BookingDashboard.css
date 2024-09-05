@@ -101,7 +101,7 @@
     margin-bottom: 20px;
 }
 
-.cancelling_confirm:hover {
+ .cancelling_confirm:hover {
     background-color: var(--darkblue);
 }
 
@@ -128,3 +128,17 @@
     100% { transform: rotate(360deg); }
   }
 
+  @media (max-width: 800px) {
+    .booking_dashboard {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .booking_dashboard_left, .booking_dashboard_right {
+        width: 100%;
+    }
+
+    .booking_dashboard_section_right {
+        margin-top: 0;
+    }
+  }

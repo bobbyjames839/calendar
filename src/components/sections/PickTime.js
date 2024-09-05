@@ -12,6 +12,10 @@ export const PickTime = ({ setSelectedTime, selectedEmployee, appointmentDuratio
     const [selectedDay, setSelectedDay] = useState(null);
 
     useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []); 
+
+    useEffect(() => {
         const today = new Date();
 
         const adjustForWeekend = (date) => {
@@ -26,7 +30,7 @@ export const PickTime = ({ setSelectedTime, selectedEmployee, appointmentDuratio
 
         const initialSelectedDay = adjustForWeekend(new Date(today));
         setSelectedDay(initialSelectedDay);
-    }, []); // No dependencies needed
+    }, []); 
     
     useEffect(() => {
         const fetchAndGenerateTimeSlots = async () => {

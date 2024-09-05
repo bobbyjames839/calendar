@@ -2,7 +2,7 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.js'
 
 export const finalCheck = async (selectedTime, selectedEmployee, startTime, appointmentDuration, randomName) => {
-    console.log(startTime, selectedEmployee, selectedTime, appointmentDuration)
+
     const bookingsRef = collection(db, 'bookings');
     const endTime = startTime + appointmentDuration / 60;
 
@@ -21,7 +21,7 @@ export const finalCheck = async (selectedTime, selectedEmployee, startTime, appo
         return { startTime: data.startTime, endTime: data.endTime };
     });
 
-        
+    //last check to see if there is an overlap between the booked slot and the already existed bookings 
     const isBooked = bookedSlots.some(slot => 
         (startTime < slot.endTime && endTime > slot.startTime)
     );

@@ -88,3 +88,22 @@
 .sidebar_section:hover .sidebar_section_icon {
     background-color: var(--light);
 }
+
+@media (max-width: 700px) {
+    .sidebar {
+        width: 320px;
+        padding: 30px 15px;
+        animation: sidebarexpandsmall .5s ease-in-out;
+    }
+}
+
+
+@keyframes sidebarexpandsmall {
+    0% {
+        transform: translateX(320px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}

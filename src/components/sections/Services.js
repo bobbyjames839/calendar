@@ -1,10 +1,15 @@
+import { useEffect } from 'react';
 import '../styles/Services.css'
 
-export const Services = ({handleSelectService, selectedService, setAppointmentDuration, setPrice, setSelectedTime}) => {
+export const Services = ({ selectedService, setAppointmentDuration, setPrice, setSelectedTime, setSelectedService}) => {
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []); 
 
     const ServiceSection = ({ title, desc, top = false, duration = 30, price = '' }) => {
         return (
-            <div className={`service_section ${selectedService.title === title && 'service_section_selected'} ${top && 'service_section_top'}`} onClick={() => {handleSelectService({ title, desc })
+            <div className={`service_section ${selectedService.title === title && 'service_section_selected'} ${top && 'service_section_top'}`} onClick={() => {setSelectedService({ title, desc })
             setAppointmentDuration(duration)
             setPrice(price)
             setSelectedTime({ date: '', startTime: '', endTime: '' })}}>
@@ -13,7 +18,6 @@ export const Services = ({handleSelectService, selectedService, setAppointmentDu
             </div>
         );
     };
-    
 
     return (
         <div className="services">

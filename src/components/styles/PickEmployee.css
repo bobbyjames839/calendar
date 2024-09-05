@@ -40,6 +40,7 @@
     border-radius: 100px;
     object-fit: cover;
     box-shadow: 0 0 10px var(--dark);
+    flex-shrink: 0;
 }
 
 .employee_image_random {
@@ -69,6 +70,18 @@
 .employee_desc {
     color: var(--darker);
     font-size: 12px;
+}
+
+@media (max-width: 800px) {
+    .pick_employee {
+        width: 45%;
+    }
+}
+
+@media (max-width: 600px) {
+    .pick_employee {
+        width: 100%;
+    }
 }
 
 

@@ -1,0 +1,21 @@
+.cancel_confirm {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10vh;
+    box-sizing: border-box;
+    align-items: center;
+    position: relative;
+    height: calc(100vh - 70px);
+}
+
+.cancel_title {
+    font-weight: 600;
+    margin: 10px 0;
+    letter-spacing: 1px;
+}
+
+.cancel_subtitle {
+    font-size: 15px;
+    text-align: center;
+    color: var(--darker);
+}
