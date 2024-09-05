@@ -14,10 +14,9 @@ import { finalCheck } from '../other/finalCheck.js';
 
 
 const sendBookingEmail = async (toEmail, bookingData) => {
-    
     const sendSmtpEmail = {
         to: [{ email: toEmail }],
-        templateId: 1,  
+        templateId: 1,  // Replace with the actual template ID
         params: {
             reference: bookingData.id,
             email: bookingData.email,
@@ -33,7 +32,7 @@ const sendBookingEmail = async (toEmail, bookingData) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'api-key': 'REMOVE',
+                'api-key': process.env.REACT_APP_BREVO_API_KEY,  // API key loaded from .env file
             },
             body: JSON.stringify(sendSmtpEmail),
         });
@@ -49,6 +48,7 @@ const sendBookingEmail = async (toEmail, bookingData) => {
         console.error('Error sending email:', error);
     }
 };
+
 
 
 export const Main = ({ setMain, setBookingComplete }) => {
