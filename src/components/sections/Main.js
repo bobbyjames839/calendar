@@ -171,7 +171,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
             };
 
             await addDoc(collection(db, 'bookings'), bookingData);
-            await sendBookingEmail(email, bookingData);
+            //await sendBookingEmail(email, bookingData);
 
             setMain(false);
             setBookingComplete(true);
