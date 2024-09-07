@@ -13,7 +13,7 @@ import { assignEmployee } from '../other/assignEmployee.js';
 import { finalCheck } from '../other/finalCheck.js';
 
 
-const sendBookingEmail = async (toEmail, bookingData) => {
+/*const sendBookingEmail = async (toEmail, bookingData) => {
     const sendSmtpEmail = {
         to: [{ email: toEmail }],
         templateId: 1,  // Replace with the actual template ID
@@ -47,7 +47,7 @@ const sendBookingEmail = async (toEmail, bookingData) => {
     } catch (error) {
         console.error('Error sending email:', error);
     }
-};
+};*/
 
 
 
