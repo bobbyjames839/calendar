@@ -15,7 +15,7 @@ export const Login = ({ setLogin, setBooking, setBookingDashboard }) => {
             
             const q = query(
                 bookingsRef,
-                where('id', '==', referenceNumberInt),
+                where('bookingId', '==', referenceNumberInt),
                 where('email', '==', email)
             );
 

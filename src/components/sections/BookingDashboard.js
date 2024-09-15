@@ -20,7 +20,7 @@ export const BookingDashboard = ({ booking, setBookingDashboard, setCancelConfir
             
             const q = query(
                 bookingsRef,
-                where('id', '==', booking.id),
+                where('bookingId', '==', booking.bookingId),
                 where('email', '==', booking.email)
             );
     

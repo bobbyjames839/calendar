@@ -18,7 +18,7 @@ import { finalCheck } from '../other/finalCheck.js';
         to: [{ email: toEmail }],
         templateId: 1,  // Replace with the actual template ID
         params: {
-            reference: bookingData.id,
+            reference: bookingData.bookingId,
             email: bookingData.email,
             start_time: bookingData.startTime,
             date: bookingData.date,
@@ -154,7 +154,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
             const bookingId = generateBookingId();
 
             const bookingData = {
-                id: bookingId,
+                bookingId: bookingId,
                 price: price,
                 service: selectedService.title,
                 employee: employeeName,
