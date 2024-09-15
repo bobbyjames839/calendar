@@ -1,6 +1,7 @@
 .cancel_confirm {
     display: flex;
     flex-direction: column;
+    width: 100%;
     padding-top: 10vh;
     box-sizing: border-box;
     align-items: center;

@@ -28,7 +28,7 @@ export const Calendar = ({ selectedDay, setSelectedDay }) => {
     
     const isDayDisabled = (day) => {
         const isEmptyDay = day === '';
-        const isPastDay = day && parseInt(day) < currentDay && month1;
+        const isPastDay = day && parseInt(day) <= currentDay && month1;
         const isClosedDay = month1 
             ? closedDaysMonth1.includes(day) 
             : closedDaysMonth2.includes(day);

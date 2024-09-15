@@ -1,65 +1,54 @@
 import React, { useState } from 'react';
 import { db } from '../config/Firebase.js';
-import { collection, query, where, getDocs, deleteDoc } from 'firebase/firestore';
+import { doc, deleteDoc } from 'firebase/firestore';
 
 import '../styles/BookingDashboard.css';
-import timeMapping from '../other/timeMapping.js'
+import timeMapping from '../other/timeMapping.js';
 
 export const BookingDashboard = ({ booking, setBookingDashboard, setCancelConfirm }) => {
-    const [cancelling, setCancelling] = useState(false)
-    const [pendingCancel, setPendingCancel] = useState(false)
+    const [cancelling, setCancelling] = useState(false);
+    const [pendingCancel, setPendingCancel] = useState(false);
 
     const capitalizeFirstLetter = (string) => {
         return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    };
 
     const handleCancel = async () => {
         try {
             setPendingCancel(true);
-            const bookingsRef = collection(db, 'bookings');
+            console.log(booking);
+            const bookingRef = doc(db, 'bookings', booking.id); 
             
-            const q = query(
-                bookingsRef,
-                where('bookingId', '==', booking.bookingId),
-                where('email', '==', booking.email)
-            );
     
-            const querySnapshot = await getDocs(q);
+            await deleteDoc(bookingRef);  // Delete the booking document using its ID
     
-            if (!querySnapshot.empty) {
-                const docRef = querySnapshot.docs[0].ref;  
-                await deleteDoc(docRef);  
-            } else {
-                console.log("Booking not found.");
-                alert('Oops, there was an error, please contact us for support.')
-            }
+            // Only set dashboard to false and show cancel confirm if the deletion is successful
+            setBookingDashboard(false);
+            setCancelConfirm(true);
         } catch (error) {
             console.error("Error canceling booking:", error);
-            alert('Oops, there was an error, please contact us for support.')
+            alert('Oops, there was an error, please contact us for support.');
         } finally {
-            setPendingCancel(false);
-            setBookingDashboard(false)
-            setCancelConfirm(true)
+            setPendingCancel(false); // Always stop the pending state regardless of success or failure
         }
     };
-
-
     
-    const BookingInfo = ({title, desc}) => {
+
+    const BookingInfo = ({ title, desc }) => {
         return (
             <div className='booking_info'>
                 <p className='booking_info_type'>{title}</p>
                 <p className='booking_info_info'>{desc}</p>
             </div>
-        )
-    }
+        );
+    };
 
     const handleConvertTime = (start, end) => {
         const newStart = Object.keys(timeMapping).find(key => timeMapping[key] === start);
         const newEnd = Object.keys(timeMapping).find(key => timeMapping[key] === end);
-        const ans = newStart + ' - ' + newEnd
-        return ans
-    }
+        const ans = newStart + ' - ' + newEnd;
+        return ans;
+    };
 
     return (
         <>

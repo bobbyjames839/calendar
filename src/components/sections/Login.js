@@ -18,27 +18,33 @@ export const Login = ({ setLogin, setBooking, setBookingDashboard }) => {
                 where('bookingId', '==', referenceNumberInt),
                 where('email', '==', email)
             );
-
+    
             const querySnapshot = await getDocs(q);
-
+    
             if (!querySnapshot.empty) {
-                const bookingData = querySnapshot.docs[0].data(); 
-                setBooking(bookingData);
+                const docSnapshot = querySnapshot.docs[0]; // Get the first matching document
+                const bookingData = docSnapshot.data();
+                const bookingId = docSnapshot.id; // Get the Firebase document ID
+    
+                // Add the Firebase document ID to the booking data
+                const bookingWithId = { ...bookingData, id: bookingId };
+    
+                setBooking(bookingWithId); // Set booking with the Firebase ID
                 setLogin(false);
-                setBookingDashboard(true)
+                setBookingDashboard(true);
             } else {
                 setLoginError(true);
                 setTimeout(() => {
                     setLoginError(false);
                 }, 3000);
                 setLogin(false);
-                setBookingDashboard(true)
+                setBookingDashboard(true);
             }
         } catch (error) {
             console.error('Error fetching booking:', error);
         }
     };
-
+    
     return (
         <div className="login">
             <div className='login_inner'>
