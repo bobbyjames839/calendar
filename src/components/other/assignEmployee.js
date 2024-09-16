@@ -2,7 +2,6 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../config/Firebase.js';
 
 export const assignEmployee = async (selectedTime, startTime, appointmentDuration, setRandomName) => {
-    // Wed Sep 11 2024 – 9.5 – 30 – useState
     const bookingsRef = collection(db, 'bookings');
 
     const endTime = startTime + appointmentDuration / 60;
@@ -10,37 +9,39 @@ export const assignEmployee = async (selectedTime, startTime, appointmentDuratio
     const q = query(bookingsRef, where("date", "==", selectedTime));
     const querySnapshot = await getDocs(q);
 
-    const employeeAvailability = {};
+    // Pre-configure the employee names in the object
+    const employeeAvailability = {
+        'Bobby': [],
+        'Tommy': [],
+        'Jasmine': [],
+        'Harry': []
+    };
 
     querySnapshot.docs.forEach(doc => {
         const data = doc.data();
 
-        // we want the employee name from every booking in the day
         const employeeName = data.employee;
-        
-        //if one does not exist we create one
-        if (!employeeAvailability[employeeName]) {
-            employeeAvailability[employeeName] = [];
+
+        // Make sure we only handle employees who are in the pre-configured list
+        if (employeeAvailability[employeeName]) {
+            employeeAvailability[employeeName].push({
+                startTime: data.startTime,
+                endTime: data.endTime
+            });
         }
-        
-        //access the array of booking slots for this employee and append the time of the appointment
-        employeeAvailability[employeeName].push({
-            startTime: data.startTime,
-            endTime: data.endTime
-        });
     });
 
-
+    // Check each employee for availability
     for (let employee in employeeAvailability) {
         const bookedSlots = employeeAvailability[employee];
-        //check if there is overlap between any of the slots in the same employee
         const isBooked = bookedSlots.some(slot => 
             (startTime < slot.endTime && endTime > slot.startTime)
         );
-
         if (!isBooked) {
-            setRandomName(employee)
+            setRandomName(employee);
+            break; // Exit once an employee is found
         }
     }
-    return null
+    
+    return null;
 };

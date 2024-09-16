@@ -97,6 +97,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
             checkAndProceed(selectedEmployee);
         } else if (mainSectionTracker === 2) {
             if (selectedEmployee.name === 'Any Staff') {
+                console.log('Assigning random employee');
                 assignEmployee(selectedTime.date, selectedTime.startTime, appointmentDuration, setRandomName);
             }
             checkAndProceed(selectedTime);
