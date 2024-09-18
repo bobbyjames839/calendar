@@ -51,7 +51,7 @@ import { finalCheck } from '../other/finalCheck.js';
 
 
 
-export const Main = ({ setMain, setBookingComplete }) => {
+export const Main = ({ setMain, setBookingComplete, setBookingReference }) => {
     const [selectedService, setSelectedService] = useState('');
     const [selectedEmployee, setSelectedEmployee] = useState('');
     const [mainSectionTracker, setMainSectionTracker] = useState(0);
@@ -61,6 +61,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
+    const [retypeEmail, setRetypeEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [appointmentNote, setAppointmentNote] = useState('');
     const [pendingBooking, setPendingBooking] = useState(false);
@@ -68,12 +69,10 @@ export const Main = ({ setMain, setBookingComplete }) => {
     const [appointmentDuration, setAppointmentDuration] = useState(30);
     const [price, setPrice] = useState('');
 
-    // Generate random booking ID
     const generateBookingId = () => {
         return Math.floor(1000000000000000 + Math.random() * 9000000000000000);
     };
 
-    // Continue booking to next section
     const handleContinueBooking = () => {
         const checkAndProceed = (condition) => {
             if (typeof condition === 'string' && condition === '') {
@@ -104,12 +103,11 @@ export const Main = ({ setMain, setBookingComplete }) => {
         }
     };
 
-    // Validate email format
     const validateEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
-
+    
     // Handle booking submission
     const handleMakeBooking = async () => {
         const emailIsValid = validateEmail(email);
@@ -121,6 +119,8 @@ export const Main = ({ setMain, setBookingComplete }) => {
             errorMessage = 'Please enter your last name.';
         } else if (!emailIsValid) {
             errorMessage = 'Please enter a valid email address.';
+        } else if (email !== retypeEmail) {
+            errorMessage = 'Email and re-typed email do not match.';
         } else if (!phoneNumber) {
             errorMessage = 'Please enter your phone number.';
         }
@@ -153,6 +153,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
 
             const employeeName = selectedEmployee.name === 'Any Staff' ? randomName : selectedEmployee.name;
             const bookingId = generateBookingId();
+            setBookingReference(bookingId);
 
             const bookingData = {
                 bookingId: bookingId,
@@ -182,6 +183,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
             console.error('Error adding booking:', error);
         }
     };
+
 
     return (
         <div className="main">
@@ -220,6 +222,7 @@ export const Main = ({ setMain, setBookingComplete }) => {
                     setEmail={setEmail}
                     setPhoneNumber={setPhoneNumber}
                     setAppointmentNote={setAppointmentNote}
+                    setRetypeEmail={setRetypeEmail}
                 />
             )}
 

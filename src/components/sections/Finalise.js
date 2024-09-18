@@ -3,8 +3,8 @@ import '../styles/Finalise.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faTimes } from '@fortawesome/free-solid-svg-icons'; 
 
-export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, setAppointmentNote }) => {
-    const [label, setLabel] = useState([false, false, false, false]);
+export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, setAppointmentNote, setRetypeEmail }) => {
+    const [label, setLabel] = useState([false, false, false, false, false]);
     const [note, setNote] = useState(false);
 
     useEffect(() => {
@@ -27,6 +27,20 @@ export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, 
 
     const handleInputChange = (setter) => (event) => {
         setter(event.target.value);
+    };
+
+    // Restrict input to numbers only
+    const handlePhoneKeyDown = (event) => {
+        const allowedKeys = [
+            'Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab',
+        ];
+
+        if (
+            !allowedKeys.includes(event.key) && // Allow basic control keys
+            (event.key < '0' || event.key > '9') // Block non-numeric keys
+        ) {
+            event.preventDefault();
+        }
     };
 
     return (
@@ -66,15 +80,28 @@ export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, 
                 />
                 <label className={`form_label ${label[2] ? 'focused_label' : ''}`}>Email</label>
             </div>
+
+            <div className='form_input_group'>
+                <input 
+                    className='form_input customer_email' 
+                    type='email' 
+                    onFocus={() => handleFocus(3)} 
+                    onBlur={(event) => handleBlur(3, event)} 
+                    onChange={handleInputChange(setRetypeEmail)}
+                />
+                <label className={`form_label ${label[3] ? 'focused_label' : ''}`}>Re-type Email</label>
+            </div>
+
             <div className='form_input_group'>
                 <input 
                     className='form_input customer_number' 
                     type='tel' 
-                    onFocus={() => handleFocus(3)} 
-                    onBlur={(event) => handleBlur(3, event)} 
-                    onChange={handleInputChange(setPhoneNumber)}
+                    onFocus={() => handleFocus(4)} 
+                    onBlur={(event) => handleBlur(4, event)} 
+                    onKeyDown={handlePhoneKeyDown}  // Only allow numeric input
+                    onChange={handleInputChange(setPhoneNumber)}  // Set phone number state
                 />
-                <label className={`form_label ${label[3] ? 'focused_label' : ''}`}>Phone Number</label>
+                <label className={`form_label ${label[4] ? 'focused_label' : ''}`}>Phone Number</label>
             </div>
 
             <div className='appointment_note'>
@@ -89,9 +116,9 @@ export const Finalise = ({ setFirstName, setLastName, setEmail, setPhoneNumber, 
 
             <div className='cancellation_policy'>
                 <h1 className='cancellation_title'>Cancellation Policy</h1>
-                <p className='cancellation_desc'>To avoid any charges, please ensure you cancel or reschedule your appointment before it begins. You ca do this via the same portal where you made your booking.</p>
+                <p className='cancellation_desc'>To avoid any charges, please ensure you cancel or reschedule your appointment before it begins. You can do this via the same portal where you made your booking.</p>
             </div>
             <p className='booking_final_note'>Upon booking with [company name], you will be sent a conformtion email with a booking reference number which you can use to view, cancel or reschedule your booking. By creating this appointment you acknowledge that you will be sent an email with your booking information.</p>
         </div>
-    )
-}
+    );
+};

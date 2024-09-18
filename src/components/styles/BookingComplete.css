@@ -19,13 +19,16 @@
 
 .booking_complete_title {
     font-weight: 600;
-    margin: 10px 0;
+    margin: 10px 0 5px 0;
     letter-spacing: 1px;
+    text-align: center;
 }
 
 .booking_complete_desc {
     font-size: 15px;
     color: var(--darker);
+    text-align: center;
+    width: 60%;
 }
 
 .make_another_booking {
@@ -34,4 +37,7 @@
     font-size: 11px;
     color: var(--dark);
     cursor: pointer;
+    background-color: var(--lightblue);
+    border-radius: 10px;
+    padding: 5px 10px;
 }

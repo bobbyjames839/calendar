@@ -17,20 +17,23 @@ export const PickTime = ({ setSelectedTime, selectedEmployee, appointmentDuratio
 
     useEffect(() => {
         const today = new Date();
-
+    
+        today.setDate(today.getDate() + 1);
+    
         const adjustForWeekend = (date) => {
             const dayOfWeek = date.getDay();
-            if (dayOfWeek === 6) {
+            if (dayOfWeek === 6) { 
                 date.setDate(date.getDate() + 2);
-            } else if (dayOfWeek === 0) {
+            } else if (dayOfWeek === 0) { 
                 date.setDate(date.getDate() + 1);
             }
             return date;
         };
-
-        const initialSelectedDay = adjustForWeekend(new Date(today));
+    
+        const initialSelectedDay = adjustForWeekend(today);
         setSelectedDay(initialSelectedDay);
-    }, []); 
+    }, []);
+    
     
     useEffect(() => {
         const fetchAndGenerateTimeSlots = async () => {

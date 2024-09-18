@@ -5,12 +5,14 @@ import { Sidebar } from './components/sections/Sidebar';
 import { Main } from './components/sections/Main';
 import { BookingComplete } from './components/sections/BookingComplete';
 import { AlreadyBooked } from './components/sections/AlreadyBooked';
+import { Footer } from './components/sections/Footer';
 
 function App() {
   const [sidebar, setSidebar] = useState(false);
   const [main, setMain] = useState(true);
   const [bookingComplete, setBookingComplete] = useState(false);
   const [alreadyBooked, setAlreadyBooked] = useState(false);
+  const [bookingReference, setBookingReference] = useState(null);
 
   return (
     <div className="App">
@@ -29,6 +31,7 @@ function App() {
         <Main 
           setMain={setMain} 
           setBookingComplete={setBookingComplete} 
+          setBookingReference={setBookingReference}
         />
       )}
 
@@ -36,10 +39,13 @@ function App() {
         <BookingComplete 
           setMain={setMain} 
           setBookingComplete={setBookingComplete} 
+          bookingReference={bookingReference}
         />
       )}
 
       {alreadyBooked && <AlreadyBooked />}
+
+      <Footer/>
       
     </div>
   );
