@@ -66,8 +66,9 @@
 }
 
 .footer_icon {
-    font-size: 18px;
-    margin: 0 8px 8px 0;
+    font-size: 15px;
+    margin: 2px 8px 0 0;
+    transform: rotate(-45deg);
 }
 
 .footer_main_inner {
@@ -100,30 +101,26 @@
     }
 
     .footer_main_inner {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .footer_section {
-        width: unset;
-        margin: 0 40px;
+        justify-content: space-between;
+        width: 80%;
     }
 
     .footer_title {
         width: 100%;
     }
 
-    .footer_logo {
-        margin-bottom: 50px;
-    }
-
     .footer_section_right {
         align-items: center;
+        margin-bottom: 50px;
     }
 }
 
 @media (max-width: 600px) {
     .footer_main_inner {
-        justify-content: space-between;
+        width: 90%;
+    }
+
+    .footer_section {
+        width: 150px;
     }
 }

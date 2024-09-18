@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons'; 
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons'; 
 import '../styles/Footer.css';
 
 export const Footer = () => {
@@ -18,7 +18,7 @@ export const Footer = () => {
                         <p className='footer_title'>Find us on social</p>
                         {socialLinks.map((social, index) => (
                             <div className='footer_social' key={index}>
-                                <FontAwesomeIcon icon={faArrowUpRightFromSquare} className='footer_icon'/> 
+                                <FontAwesomeIcon icon={faArrowRight} className='footer_icon'/> 
                                 <a href='/' className='footer_text'>{social}</a>
                             </div>
                         ))}
