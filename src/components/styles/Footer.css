@@ -1,12 +1,30 @@
 .footer {
     margin-top: 100px;
-    height: 270px;
     width: 100%;
     background-color: var(--lighter);
     display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
+}
+
+.footer_main {
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.footer_section {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+}
+
+.footer_section_right {
+    display: flex;
+    justify-content: center;
 }
 
 .footer_logo {
@@ -22,36 +40,12 @@
     letter-spacing: .5px;
 }
 
-.footer_main {
-    margin-top: 50px;
-    display: flex;
-    justify-content: center;
-}
-
-.footer_section {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 350px;
-}
-
-.footer_logo {
-    position: absolute;
-    top: 50%;
-    right: 70%;
-    transform: translate(50%, -50%);
-}
-
 .footer_social {
     display: flex;
-    align-items: center;
 }
 
 .footer_copy {
-    position: absolute;
-    bottom: 8px;
-    right: 50%;
-    transform: translateX(50%);
+    margin-bottom: 8px;
     font-size: 12px;
     color: var(--dark);
 }
@@ -74,4 +68,62 @@
 .footer_icon {
     font-size: 18px;
     margin: 0 8px 8px 0;
+}
+
+.footer_main_inner {
+    display: flex;
+}
+
+@media (max-width: 1100px) {
+    .footer_section_right {
+        width: 250px;
+    }
+}
+
+@media (max-width: 1000px) {
+    .footer_section {
+        width: 250px;
+    }
+}
+
+@media (max-width: 800px) {
+    .footer_section {
+        width: 200px;
+    }
+}
+
+@media (max-width: 800px) {
+    .footer_main {
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+    }
+
+    .footer_main_inner {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .footer_section {
+        width: unset;
+        margin: 0 40px;
+    }
+
+    .footer_title {
+        width: 100%;
+    }
+
+    .footer_logo {
+        margin-bottom: 50px;
+    }
+
+    .footer_section_right {
+        align-items: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .footer_main_inner {
+        justify-content: space-between;
+    }
 }
