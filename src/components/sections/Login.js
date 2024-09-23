@@ -22,7 +22,6 @@ export const Login = ({ setLogin, setBooking, setBookingDashboard }) => {
             const querySnapshot = await getDocs(q);
     
             if (!querySnapshot.empty) {
-                console.log('wjnr')
                 const docSnapshot = querySnapshot.docs[0]; // Get the first matching document
                 const bookingData = docSnapshot.data();
                 const bookingId = docSnapshot.id; // Get the Firebase document ID
